@@ -56,8 +56,8 @@ define('LOGO_WHITE', 'assets/images/logo-white.svg');
 define('LOGO_FAVICON', 'assets/images/favicon.svg');
 
 // Primary Contact Info
-define('COMPANY_PHONE', '+263 77 212 3456');
-define('COMPANY_WHATSAPP', '+263772123456');
+define('COMPANY_PHONE', '+263 77 243 2941');
+define('COMPANY_WHATSAPP', '+263772432941');
 define('COMPANY_EMAIL', 'info@penielproperties.co.zw');
 define('COMPANY_ADDRESS', 'Suite 4, Peniel House, Borrowdale Road, Harare, Zimbabwe');
 

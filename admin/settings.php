@@ -135,13 +135,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password'])) {
       <div class="form-grid" style="margin-bottom: 24px;">
         <div>
           <label class="admin-label" for="waNum">WhatsApp Direct Number * (International format, no + or spaces)</label>
-          <input type="text" id="waNum" name="whatsapp_number" class="admin-input" placeholder="e.g. 263772123456" value="<?= e($settings['whatsapp_number'] ?? COMPANY_WHATSAPP) ?>">
+          <input type="text" id="waNum" name="whatsapp_number" class="admin-input" placeholder="e.g. 263772432941" value="<?= e($settings['whatsapp_number'] ?? COMPANY_WHATSAPP) ?>">
           <span style="font-size: 0.75rem; color: var(--admin-muted);">Used for official click-to-chat links across property cards and inquiries.</span>
         </div>
 
         <div>
           <label class="admin-label" for="phoneNum">Public Display Phone</label>
-          <input type="text" id="phoneNum" name="contact_phone" class="admin-input" placeholder="+263 77 212 3456" value="<?= e($settings['contact_phone'] ?? COMPANY_PHONE) ?>">
+          <input type="text" id="phoneNum" name="contact_phone" class="admin-input" placeholder="+263 77 243 2941" value="<?= e($settings['contact_phone'] ?? COMPANY_PHONE) ?>">
         </div>
 
         <div>
