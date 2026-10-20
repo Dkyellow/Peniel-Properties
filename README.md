@@ -135,38 +135,75 @@ define('DB_PASS', '');
 
 ## cPanel Shared Hosting Deployment Guide
 
-### 1. Upload Project Files
-1. Log into your hosting **cPanel**.
-2. Open **File Manager** and enter `public_html` (or your addon domain directory).
-3. Upload all project files maintaining the folder structure.
-4. Ensure the `.htaccess` files are visible and present.
+### 1. Set the PHP Version
+1. In cPanel, open **MultiPHP Manager** (or "Select PHP Version").
+2. Set the domain/addon domain to **PHP 8.1** or newer (the app uses PHP 8 `match` expressions).
+3. Confirm required extensions are enabled: `pdo_mysql`, `mbstring`, `fileinfo`, `json`.
 
 ### 2. Create MySQL Database & User
 1. In cPanel, navigate to **MySQL® Databases**.
 2. Create a new database (e.g. `cpaneluser_peniel`).
 3. Create a new database user with a strong password.
 4. Add the user to the database and grant **ALL PRIVILEGES**.
+5. Note the full prefixed names — cPanel always prefixes them (e.g. DB `cpaneluser_peniel`, user `cpaneluser_dbuser`).
 
-### 3. Import Schema via cPanel phpMyAdmin
-1. In cPanel, open **phpMyAdmin**.
-2. Select your newly created database from the left sidebar.
-3. Click **Import**, choose `database/database.sql`, and execute.
+### 3. Upload Project Files
+1. In cPanel, open **File Manager**, enter `public_html` (or your addon-domain folder).
+2. Upload the project as a ZIP and extract it, keeping the folder structure intact
+   (all `*.php`, `assets/`, `admin/`, `app/`, `database/`, `uploads/`, plus `.htaccess`, `robots.txt`, `.env`).
+3. Enable **Settings → Show Hidden Files (dotfiles)** so `.htaccess` and `.env` are visible and actually transferred.
+4. Verify the root `.htaccess` sits next to `index.php` (not inside a nested folder).
 
-### 4. Configure Production Credentials
-Edit `app/config/config.php` (or set environment variables):
-```php
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'cpaneluser_peniel');
-define('DB_USER', 'cpaneluser_dbuser');
-define('DB_PASS', 'YourStrongPasswordHere');
+### 4. Configure Production Credentials (`.env`)
+Edit the `.env` file in the web root (File Manager → Edit). It is excluded from git and
+blocked from web access by `.htaccess`, so credentials stay private:
+
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=cpaneluser_peniel
+DB_USER=cpaneluser_dbuser
+DB_PASS=YourStrongPasswordHere
 ```
 
-### 5. File Permissions
-Ensure the upload directory has write permissions:
-- `uploads/properties/` &rarr; `755` (or `775` depending on server environment)
+No code changes are needed — `app/config/config.php` reads this file automatically
+(falling back to server environment variables, then safe defaults).
 
-### 6. SSL / HTTPS
-Enable **AutoSSL** or **Let's Encrypt** in cPanel for your domain.
+### 5. Import Schema via cPanel phpMyAdmin
+1. In cPanel, open **phpMyAdmin**.
+2. Select your newly created database in the left sidebar.
+3. Click **Import**, choose `database/database.sql`, and press **Go**.
+4. Confirm tables exist: `properties`, `property_images`, `inquiries`, `admins`, `site_settings`.
+5. After import, update the contact numbers stored in the DB if they differ
+   (**Admin → Site Settings**, or `UPDATE site_settings ...` for `contact_phone` / `whatsapp_number`).
+
+### 6. File Permissions
+- `uploads/` and `uploads/properties/` → `755` (owner: your cPanel account). Use `775` only if
+  the host runs PHP as a different user and image uploads fail.
+- All PHP/CSS/JS files → `644`.
+- Change the admin password (**Admin → Site Settings** or DB) from the README default before going live.
+
+### 7. SSL / HTTPS
+Enable **AutoSSL** (or Let's Encrypt) in cPanel for your domain — required for
+browser push notifications and secure sessions.
+
+### 8. Post-Deployment Checklist
+- `https://yourdomain.com/` renders the homepage with listings
+- `https://yourdomain.com/admin/login.php` → sign in with the admin account
+- Submit a test inquiry → toast appears, the record shows in **Admin → Inquiries**, and the sidebar badge increments
+- Upload a test property image → file saves under `uploads/properties/`
+- `https://yourdomain.com/sitemap.xml` and `/robots.txt` respond correctly
+- `/app/`, `/database/`, `/.env` all return **403 Forbidden** (not file contents)
+
+### Troubleshooting
+- **500 Internal Server Error right after upload:** almost always an `.htaccess` directive your host
+  disallows. In File Manager rename `.htaccess` to `.htaccess.bak` — if the site loads, rename it back
+  and remove `Options -Indexes` (host has `AllowOverride` without `Options`), then re-test.
+- **"Access denied" / blank admin pages:** confirm `mod_rewrite` is active (cPanel → Apache Modules)
+  and the `.htaccess` is in the web root, not a subfolder.
+- **Database connection failed:** re-check the prefixed `DB_NAME`/`DB_USER`/`DB_PASS` in `.env`
+  (cPanel prefixes both with your account name) and that the user has **ALL PRIVILEGES** on that database.
+- **Images not saving:** set `uploads/properties/` to `755`/`775` owned by the cPanel account.
 
 ---
 

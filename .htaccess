@@ -20,13 +20,23 @@ AddDefaultCharset UTF-8
 
 # Protect Hidden Files and Sensitive Folders
 <FilesMatch "^\.">
-    Order allow,deny
-    Deny from all
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
 </FilesMatch>
 
 <FilesMatch "(^#.*#|\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|sw[op]|env))$">
-    Order allow,deny
-    Deny from all
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
 </FilesMatch>
 
 # URL Rewriting
@@ -35,6 +45,10 @@ AddDefaultCharset UTF-8
 
     # Prevent direct access to app, database, and storage directories
     RewriteRule ^(app|database|storage)/ - [F,L]
+
+    # Serve the dynamic sitemap at the conventional /sitemap.xml path
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^sitemap\.xml$ sitemap.xml.php [L]
 
     # Friendly property routing: /property/{id}/{slug} -> property.php?id={id}&slug={slug}
     RewriteCond %{REQUEST_FILENAME} !-f

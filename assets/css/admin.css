@@ -429,6 +429,79 @@ body.admin-nav-open {
   overflow: hidden;
 }
 
+/* Notification Toasts */
+.admin-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 300;
+  width: min(360px, calc(100vw - 32px));
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 14px 14px 16px;
+  background-color: #FFFFFF;
+  border: 1px solid var(--admin-border);
+  border-left: 4px solid var(--admin-lime);
+  border-radius: var(--admin-radius);
+  box-shadow: 0 12px 32px rgba(8, 37, 65, 0.2);
+  transform: translateX(calc(100% + 40px));
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.admin-toast.is-visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.admin-toast-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--admin-lime);
+  color: var(--admin-navy);
+}
+
+.admin-toast-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.admin-toast-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--admin-navy);
+}
+
+.admin-toast-text {
+  font-size: 0.8125rem;
+  color: var(--admin-muted);
+  overflow-wrap: anywhere;
+}
+
+.admin-toast-close {
+  background: none;
+  border: none;
+  color: var(--admin-muted);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  flex-shrink: 0;
+}
+
+.admin-toast-close:hover {
+  color: var(--admin-navy);
+}
+
 /* --------------------------------------------------------------------------
    Responsive Breakpoints
 --------------------------------------------------------------------------- */

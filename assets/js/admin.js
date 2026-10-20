@@ -51,6 +51,114 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // 0.1 New Inquiry Notifications (polled from the admin notification feed)
+  if (sidebar && sidebar.dataset.unreadInquiries !== undefined) {
+    let lastCount = parseInt(sidebar.dataset.unreadInquiries, 10) || 0;
+    const endpoint = window.location.pathname.replace(/[^/]*$/, '') + 'notifications.php';
+    const inquiriesLink = document.getElementById('adminInquiriesLink');
+    let badge = document.getElementById('adminInquiryBadge');
+
+    const renderBadge = function (count) {
+      if (!inquiriesLink) return;
+      if (count > 0) {
+        if (!badge || !badge.isConnected) {
+          badge = document.createElement('span');
+          badge.className = 'admin-nav-badge';
+          badge.id = 'adminInquiryBadge';
+          inquiriesLink.appendChild(badge);
+        }
+        badge.textContent = count;
+      } else if (badge) {
+        badge.remove();
+        badge = null;
+      }
+    };
+
+    const showAdminToast = function (title, message) {
+      const toast = document.createElement('div');
+      toast.className = 'admin-toast';
+      toast.setAttribute('role', 'status');
+      toast.innerHTML =
+        '<span class="admin-toast-icon">' +
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>' +
+        '</span>' +
+        '<span class="admin-toast-body">' +
+        '<strong class="admin-toast-title"></strong>' +
+        '<span class="admin-toast-text"></span>' +
+        '</span>' +
+        '<button type="button" class="admin-toast-close" aria-label="Dismiss notification">&times;</button>';
+
+      toast.querySelector('.admin-toast-title').textContent = title;
+      toast.querySelector('.admin-toast-text').textContent = message;
+
+      const dismiss = function () {
+        toast.classList.remove('is-visible');
+        setTimeout(function () {
+          if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 320);
+      };
+
+      toast.querySelector('.admin-toast-close').addEventListener('click', dismiss);
+
+      document.body.appendChild(toast);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          toast.classList.add('is-visible');
+        });
+      });
+      setTimeout(dismiss, 7000);
+    };
+
+    const sendBrowserNotification = function (title, message) {
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+      try {
+        new Notification(title, { body: message, tag: 'peniel-new-inquiry' });
+      } catch (e) { /* notification blocked in this context */ }
+    };
+
+    if ('Notification' in window && Notification.permission === 'default') {
+      const requestPermission = function () {
+        Notification.requestPermission().catch(function () {});
+        document.removeEventListener('click', requestPermission);
+      };
+      document.addEventListener('click', requestPermission);
+    }
+
+    const pollNotifications = function () {
+      fetch(endpoint, { cache: 'no-store', credentials: 'same-origin' })
+        .then(function (res) {
+          const type = res.headers.get('content-type') || '';
+          if (!res.ok || type.indexOf('application/json') === -1) throw new Error('feed unavailable');
+          return res.json();
+        })
+        .then(function (data) {
+          if (!data || !data.ok) return;
+
+          const count = parseInt(data.count, 10) || 0;
+
+          if (count > lastCount && data.latest) {
+            const title = 'New Client Inquiry';
+            const property = data.latest.property_title || data.latest.reference_no;
+            const message = property
+              ? data.latest.name + ' inquired about ' + property
+              : data.latest.name + ' sent a general inquiry';
+
+            showAdminToast(title, message);
+            sendBrowserNotification(title, message);
+          }
+
+          if (count !== lastCount) {
+            renderBadge(count);
+            sidebar.dataset.unreadInquiries = count;
+            lastCount = count;
+          }
+        })
+        .catch(function () { /* silent - retry on next tick */ });
+    };
+
+    setInterval(pollNotifications, 10000);
+  }
+
   // 1. Automatic Slug Generator
   const titleInput = document.getElementById('propTitle');
   const slugInput = document.getElementById('propSlug');

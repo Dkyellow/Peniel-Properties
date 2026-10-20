@@ -37,12 +37,52 @@ if (!defined('BASE_URL')) {
     define('BASE_URL', $protocol . $host . $subDir);
 }
 
+// Optional .env loader — lets cPanel/production credentials live in a single
+// untracked file at the project root (the root .htaccess blocks web access to it).
+if (defined('ROOT_PATH')) {
+    $envFile = ROOT_PATH . DIRECTORY_SEPARATOR . '.env';
+    if (is_readable($envFile) && ($envLines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)) !== false) {
+        foreach ($envLines as $envLine) {
+            $envLine = trim($envLine);
+            if ($envLine === '' || $envLine[0] === '#' || strpos($envLine, '=') === false) {
+                continue;
+            }
+            list($envKey, $envValue) = explode('=', $envLine, 2);
+            $envKey = trim($envKey);
+            $envValue = trim($envValue);
+            if ($envValue !== '' && strlen($envValue) > 1 && ($envValue[0] === '"' || $envValue[0] === "'") && substr($envValue, -1) === $envValue[0]) {
+                $envValue = substr($envValue, 1, -1);
+            }
+            if ($envKey !== '' && getenv($envKey) === false) {
+                if (function_exists('putenv')) {
+                    putenv($envKey . '=' . $envValue);
+                }
+                $_ENV[$envKey] = $envValue;
+            }
+        }
+    }
+}
+
+if (!function_exists('env_value')) {
+    function env_value(string $key, string $default = ''): string
+    {
+        $value = getenv($key);
+        if ($value !== false && $value !== '') {
+            return $value;
+        }
+        if (isset($_ENV[$key]) && $_ENV[$key] !== '') {
+            return (string) $_ENV[$key];
+        }
+        return $default;
+    }
+}
+
 // Database Credentials
-define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
-define('DB_PORT', getenv('DB_PORT') ?: '3306');
-define('DB_NAME', getenv('DB_NAME') ?: 'peniel_properties');
-define('DB_USER', getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('DB_PASS') ?: '');
+define('DB_HOST', env_value('DB_HOST', '127.0.0.1'));
+define('DB_PORT', env_value('DB_PORT', '3306'));
+define('DB_NAME', env_value('DB_NAME', 'peniel_properties'));
+define('DB_USER', env_value('DB_USER', 'root'));
+define('DB_PASS', env_value('DB_PASS', ''));
 define('DB_CHARSET', 'utf8mb4');
 
 // Brand & Logo Configuration (Configurable without modifying layouts)

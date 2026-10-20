@@ -286,6 +286,17 @@ require_once __DIR__ . '/app/includes/header.php';
           </div>
 
           <?php if ($inquirySuccess): ?>
+            <div class="site-toast site-toast-success" data-site-toast role="status" aria-live="polite">
+              <span class="site-toast-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+              </span>
+              <span class="site-toast-body">
+                <strong class="site-toast-title">Inquiry received</strong>
+                <span class="site-toast-text">Thank you! Your inquiry has been registered. Our property manager will get in touch shortly.</span>
+              </span>
+              <button type="button" class="site-toast-close" aria-label="Dismiss notification">&times;</button>
+            </div>
+
             <div class="alert alert-success">
               Thank you! Your inquiry has been registered. Our property manager will get in touch shortly.
             </div>

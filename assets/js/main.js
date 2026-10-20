@@ -95,4 +95,24 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+  // 5. Inquiry Success Toasts
+  document.querySelectorAll('[data-site-toast]').forEach(function (toast) {
+    const closeBtn = toast.querySelector('.site-toast-close');
+
+    const dismiss = function () {
+      toast.classList.remove('is-visible');
+      setTimeout(function () {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 400);
+    };
+
+    if (closeBtn) closeBtn.addEventListener('click', dismiss);
+
+    setTimeout(function () {
+      toast.classList.add('is-visible');
+    }, 250);
+
+    setTimeout(dismiss, 8000);
+  });
 });

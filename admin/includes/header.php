@@ -33,7 +33,7 @@ $flash = get_flash();
   <div class="admin-sidebar-overlay" id="adminSidebarOverlay" hidden></div>
 
   <!-- Admin Sidebar -->
-  <aside class="admin-sidebar" id="adminSidebar">
+  <aside class="admin-sidebar" id="adminSidebar" data-unread-inquiries="<?= (int) $unreadInquiriesCount ?>">
     <div class="admin-sidebar-header">
       <img src="<?= asset(LOGO_WHITE) ?>" alt="Peniel Properties">
     </div>
@@ -66,13 +66,13 @@ $flash = get_flash();
         Add Property
       </a>
 
-      <a href="<?= url('admin/inquiries.php') ?>" class="admin-nav-link <?= $activeNav === 'inquiries' ? 'active' : '' ?>">
+      <a href="<?= url('admin/inquiries.php') ?>" id="adminInquiriesLink" class="admin-nav-link <?= $activeNav === 'inquiries' ? 'active' : '' ?>">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
         </svg>
         Inquiries
         <?php if ($unreadInquiriesCount > 0): ?>
-          <span class="admin-nav-badge"><?= $unreadInquiriesCount ?></span>
+          <span class="admin-nav-badge" id="adminInquiryBadge"><?= $unreadInquiriesCount ?></span>
         <?php endif; ?>
       </a>
 
