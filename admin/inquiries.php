@@ -72,7 +72,7 @@ if ($db) {
     <span style="font-size: 0.875rem; color: var(--admin-muted);">Total received: <?= count($inquiries) ?></span>
   </div>
 
-  <div style="display: flex; gap: 8px;">
+  <div style="display: flex; gap: 8px; flex-wrap: wrap;">
     <a href="<?= url('admin/inquiries.php') ?>" class="btn-admin <?= empty($filterStatus) ? 'btn-admin-primary' : 'btn-admin-outline' ?>">All</a>
     <a href="<?= url('admin/inquiries.php?status=new') ?>" class="btn-admin <?= $filterStatus === 'new' ? 'btn-admin-primary' : 'btn-admin-outline' ?>">New</a>
     <a href="<?= url('admin/inquiries.php?status=contacted') ?>" class="btn-admin <?= $filterStatus === 'contacted' ? 'btn-admin-primary' : 'btn-admin-outline' ?>">Contacted</a>

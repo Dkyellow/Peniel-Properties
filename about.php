@@ -41,7 +41,7 @@ require_once __DIR__ . '/app/includes/header.php';
         <p style="font-size: 1.0625rem; color: #334155; line-height: 1.8; margin-bottom: 20px;">
           Whether facilitating the sale of a flagship mansion in Borrowdale Brooke, securing high-yield cluster units in Chisipite, or managing expatriate tenancies in Avondale and Highlands, our team applies rigorous due diligence to ensure every transaction is secure and rewarding.
         </p>
-        <div style="display: flex; gap: 24px; margin-top: 32px;">
+        <div style="display: flex; gap: 24px; margin-top: 32px; flex-wrap: wrap;">
           <div>
             <h4 style="font-size: 1.5rem; color: var(--color-deep-navy); margin-bottom: 4px;">Harare & Bulawayo</h4>
             <span style="font-size: 0.875rem; color: var(--color-text-muted);">Core Operating Hubs</span>
@@ -54,7 +54,7 @@ require_once __DIR__ . '/app/includes/header.php';
       </div>
 
       <div style="border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-lg);">
-        <img src="<?= asset('assets/images/hero.jpg') ?>" alt="Peniel Properties Portfolio" style="width: 100%; height: 460px; object-fit: cover;">
+        <img src="<?= asset('assets/images/hero.jpg') ?>" alt="Peniel Properties Portfolio" class="about-hero-img" style="width: 100%; height: 460px; object-fit: cover;">
       </div>
     </div>
   </div>

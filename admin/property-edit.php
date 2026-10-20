@@ -167,12 +167,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_property'])) {
 ?>
 
 <div style="max-width: 960px; margin: 0 auto;">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 14px;">
     <div>
       <h2 style="font-size: 1.5rem; color: var(--admin-navy);">Edit Property: <?= e($property['reference_no']) ?></h2>
       <span style="font-size: 0.875rem; color: var(--admin-muted);"><?= e($property['title']) ?></span>
     </div>
-    <div style="display: flex; gap: 8px;">
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
       <a href="<?= url('property.php?id=' . $property['id'] . '&slug=' . urlencode($property['slug'])) ?>" target="_blank" class="btn-admin btn-admin-outline">View Live &rarr;</a>
       <a href="<?= url('admin/properties.php') ?>" class="btn-admin btn-admin-outline">&larr; Back</a>
     </div>
@@ -357,7 +357,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_property'])) {
           </select>
         </div>
 
-        <div style="display: flex; gap: 24px; align-items: center; padding-top: 24px;">
+        <div style="display: flex; gap: 24px; align-items: center; padding-top: 24px; flex-wrap: wrap;">
           <label style="display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.9375rem; cursor: pointer;">
             <input type="checkbox" name="is_featured" value="1" <?= $property['is_featured'] ? 'checked' : '' ?>>
             Feature on Homepage
@@ -370,7 +370,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_property'])) {
         </div>
       </div>
 
-      <div style="display: flex; gap: 16px;">
+      <div style="display: flex; gap: 16px; flex-wrap: wrap;">
         <button type="submit" name="update_property" value="1" class="btn-admin btn-admin-lime" style="padding: 12px 28px; font-size: 1rem;">
           Save Changes
         </button>

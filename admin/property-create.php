@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <div style="max-width: 960px; margin: 0 auto;">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 14px;">
     <h2 style="font-size: 1.5rem; color: var(--admin-navy);">Create New Property Listing</h2>
     <a href="<?= url('admin/properties.php') ?>" class="btn-admin btn-admin-outline">&larr; Back to Properties</a>
   </div>
@@ -304,7 +304,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </select>
         </div>
 
-        <div style="display: flex; gap: 24px; align-items: center; padding-top: 24px;">
+        <div style="display: flex; gap: 24px; align-items: center; padding-top: 24px; flex-wrap: wrap;">
           <label style="display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.9375rem; cursor: pointer;">
             <input type="checkbox" name="is_featured" value="1">
             Feature on Homepage
@@ -317,7 +317,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
       </div>
 
-      <div style="display: flex; gap: 16px;">
+      <div style="display: flex; gap: 16px; flex-wrap: wrap;">
         <button type="submit" class="btn-admin btn-admin-lime" style="padding: 12px 28px; font-size: 1rem;">
           Save & Publish Listing
         </button>

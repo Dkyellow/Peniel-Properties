@@ -3,6 +3,54 @@
  */
 
 document.addEventListener('DOMContentLoaded', function () {
+  // 0. Mobile Sidebar Toggle
+  const sidebar = document.getElementById('adminSidebar');
+  const menuBtn = document.getElementById('adminMenuBtn');
+  const overlay = document.getElementById('adminSidebarOverlay');
+
+  if (sidebar && menuBtn) {
+    const setNavState = function (open) {
+      sidebar.classList.toggle('open', open);
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.classList.toggle('admin-nav-open', open);
+
+      if (overlay) {
+        overlay.classList.toggle('active', open);
+        overlay.hidden = !open;
+      }
+    };
+
+    menuBtn.addEventListener('click', function () {
+      setNavState(!sidebar.classList.contains('open'));
+    });
+
+    if (overlay) {
+      overlay.addEventListener('click', function () {
+        setNavState(false);
+      });
+    }
+
+    sidebar.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function () {
+        if (window.matchMedia('(max-width: 992px)').matches) {
+          setNavState(false);
+        }
+      });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+        setNavState(false);
+      }
+    });
+
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 992 && sidebar.classList.contains('open')) {
+        setNavState(false);
+      }
+    });
+  }
+
   // 1. Automatic Slug Generator
   const titleInput = document.getElementById('propTitle');
   const slugInput = document.getElementById('propSlug');

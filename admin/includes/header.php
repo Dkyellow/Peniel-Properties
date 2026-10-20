@@ -108,10 +108,20 @@ $flash = get_flash();
   <!-- Admin Main Wrapper -->
   <div class="admin-main">
     <header class="admin-topbar">
-      <h1 class="admin-page-title"><?= e($pageTitle) ?></h1>
+      <div class="admin-topbar-left">
+        <button type="button" class="admin-menu-btn" id="adminMenuBtn" aria-label="Open navigation menu" aria-controls="adminSidebar" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <h1 class="admin-page-title"><?= e($pageTitle) ?></h1>
+      </div>
       <div class="admin-user-profile">
-        <span style="font-size: 0.875rem; color: var(--admin-muted);">
-          Welcome, <strong style="color: var(--admin-navy);"><?= e($currentUser['full_name'] ?: $currentUser['username']) ?></strong>
+        <span class="admin-welcome-text">Welcome, <strong><?= e($currentUser['full_name'] ?: $currentUser['username']) ?></strong></span>
+        <span class="admin-welcome-short" title="Welcome, <?= e($currentUser['full_name'] ?: $currentUser['username']) ?>">
+          <span class="admin-avatar"><?= e(strtoupper(substr($currentUser['full_name'] ?: $currentUser['username'], 0, 1))) ?></span>
         </span>
       </div>
     </header>
