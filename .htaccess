@@ -1,0 +1,53 @@
+# ==============================================================================
+# Peniel Properties - Apache Server Configuration & Security
+# ==============================================================================
+
+DirectoryIndex index.php index.html
+
+# Prevent Directory Browsing
+Options -Indexes
+
+# Character Encoding
+AddDefaultCharset UTF-8
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Protect Hidden Files and Sensitive Folders
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<FilesMatch "(^#.*#|\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|sw[op]|env))$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# URL Rewriting
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Prevent direct access to app, database, and storage directories
+    RewriteRule ^(app|database|storage)/ - [F,L]
+
+    # Friendly property routing: /property/{id}/{slug} -> property.php?id={id}&slug={slug}
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^property/([0-9]+)/?([a-zA-Z0-9_-]*)/?$ property.php?id=$1&slug=$2 [QSA,L]
+
+    # Friendly property routing: /property/{slug} -> property.php?slug={slug}
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^property/([a-zA-Z0-9_-]+)/?$ property.php?slug=$1 [QSA,L]
+</IfModule>
+
+# Compression for Speed
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
