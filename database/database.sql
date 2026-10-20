@@ -2,9 +2,17 @@
 -- Peniel Properties Real Estate Website Database Schema
 -- Compatible with MySQL 5.7+, MariaDB 10.3+, and phpMyAdmin
 -- ============================================================================
-
-CREATE DATABASE IF NOT EXISTS `peniel_properties` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `peniel_properties`;
+--
+-- NOTE: This file no longer creates or selects a database, so it imports cleanly
+-- into any account (cPanel restricts CREATE DATABASE to the prefixed databases
+-- you create in MySQL® Databases). In phpMyAdmin, SELECT your database in the
+-- left sidebar first, then import this file.
+--
+-- Local (XAMPP): create an empty database named `peniel_properties` in
+-- phpMyAdmin (Databases > Create) before importing.
+--
+-- CREATE DATABASE IF NOT EXISTS `peniel_properties` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- USE `peniel_properties`;
 
 -- ----------------------------------------------------------------------------
 -- Table: admins

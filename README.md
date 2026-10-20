@@ -102,20 +102,26 @@ Open the **XAMPP Control Panel** and click **Start** on both **Apache** and **My
 ### Step 3: Import Database via phpMyAdmin
 1. Open your web browser and navigate to:
    `http://localhost/phpmyadmin`
-2. Click **Import** in the top navigation bar.
-3. Click **Choose File** and select:
+2. Open the **Databases** tab and create an empty database named `peniel_properties`
+   (charset `utf8mb4`, collation `utf8mb4_unicode_ci`).
+3. Select `peniel_properties` in the left sidebar, then click **Import**.
+4. Click **Choose File** and select:
    `c:\Users\leslie\Documents\Web Projecta\Peniel Properties\database\database.sql`
-4. Click **Import** (or **Go**) at the bottom.
-5. The database `peniel_properties` and all tables (`properties`, `property_images`, `inquiries`, `admins`, `site_settings`) will be created and populated with demonstration data.
+5. Click **Import** (or **Go**) at the bottom.
+6. All tables (`properties`, `property_images`, `inquiries`, `admins`, `site_settings`) are created
+   and populated with demonstration data. The SQL file intentionally contains **no**
+   `CREATE DATABASE` statement so it imports into any pre-created database (cPanel-safe).
 
 ### Step 4: Verify Database Connection
-Open `app/config/config.php` and verify your credentials (default for XAMPP is user `root` with empty password):
-```php
-define('DB_HOST', '127.0.0.1');
-define('DB_PORT', '3306');
-define('DB_NAME', 'peniel_properties');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+Credentials are read from the `.env` file in the project root (falling back to the
+defaults in `app/config/config.php`). For XAMPP the defaults are user `root` with an
+empty password:
+```env
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_NAME=peniel_properties
+DB_USER=root
+DB_PASS=
 ```
 
 ### Step 5: Test in Browser
@@ -171,7 +177,9 @@ No code changes are needed — `app/config/config.php` reads this file automatic
 
 ### 5. Import Schema via cPanel phpMyAdmin
 1. In cPanel, open **phpMyAdmin**.
-2. Select your newly created database in the left sidebar.
+2. Select your newly created (prefixed) database in the left sidebar — this is required,
+   because the SQL file contains **no** `CREATE DATABASE` statement (cPanel users cannot
+   create databases directly, which previously caused error **#1044**).
 3. Click **Import**, choose `database/database.sql`, and press **Go**.
 4. Confirm tables exist: `properties`, `property_images`, `inquiries`, `admins`, `site_settings`.
 5. After import, update the contact numbers stored in the DB if they differ
