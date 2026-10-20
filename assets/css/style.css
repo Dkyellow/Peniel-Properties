@@ -448,10 +448,13 @@ h1, h2, h3, h4, h5, h6 {
   inset: 0;
   width: 100%;
   height: 100vh;
+  height: 100svh;
   height: 100dvh;
   background-color: var(--color-deep-navy);
-  padding: 24px 20px 24px;
-  overflow: hidden;
+  padding: 24px 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   z-index: 10000;
   display: flex;
   flex-direction: column;
@@ -468,6 +471,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 body.drawer-open {
+  overflow: hidden;
+}
+
+html:has(body.drawer-open) {
   overflow: hidden;
 }
 
@@ -501,16 +508,21 @@ body.drawer-open {
   flex-direction: column;
   gap: 10px;
   margin-bottom: 16px;
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
   padding-bottom: 8px;
 }
 
 .mobile-nav-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
   flex-shrink: 0;
-  padding-bottom: env(safe-area-inset-bottom);
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+  background-color: var(--color-deep-navy);
+  box-shadow: 0 -16px 18px var(--color-deep-navy);
 }
 
 .mobile-nav-link {
