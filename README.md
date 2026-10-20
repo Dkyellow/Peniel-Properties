@@ -53,9 +53,9 @@ Peniel Properties/
 │   │   ├── main.js           # Navigation, search tabs & gallery thumbnail switcher
 │   │   └── admin.js          # Slug generator, image previews & confirmation dialogs
 │   └── images/
-│       ├── logo.svg          # Approved Peniel Properties horizontal logo
-│       ├── logo-white.svg    # Transparent header logo for navy panels
-│       └── favicon.svg       # Favicon architectural mark
+│       ├── logo.png          # Approved Peniel Properties logo (transparent PNG, navy panels & footer)
+│       ├── favicon.png       # Navy favicon / social share tile
+│       └── hero.jpg          # Hero photography
 ├── uploads/
 │   ├── .htaccess             # Security guard disabling PHP execution in media folders
 │   └── properties/           # Uploaded listing photographs

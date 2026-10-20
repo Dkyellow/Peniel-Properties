@@ -89,6 +89,25 @@ $pageTitle = $property['title'] . ' | ' . SITE_NAME;
 $pageDescription = substr(strip_tags($property['description']), 0, 160) . '...';
 $activePage = 'properties';
 
+// Link preview: share the property's own photo instead of the generic brand card
+$ogType = 'article';
+if (!empty($property['cover_image'])) {
+    $ogImage = asset($property['cover_image']);
+    $ogImageAlt = $property['title'] . ' - ' . SITE_NAME;
+    $ogExt = strtolower(pathinfo($property['cover_image'], PATHINFO_EXTENSION));
+    $ogImageType = 'image/' . ($ogExt === 'jpg' ? 'jpeg' : $ogExt);
+    $ogImageWidth = 1200;
+    $ogImageHeight = 630;
+
+    $coverAbs = ROOT_PATH . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $property['cover_image']);
+    $coverInfo = @getimagesize($coverAbs);
+    if (is_array($coverInfo)) {
+        $ogImageWidth = (int) $coverInfo[0];
+        $ogImageHeight = (int) $coverInfo[1];
+        $ogImageType = (string) $coverInfo['mime'];
+    }
+}
+
 // WhatsApp Message Format as specified in requirements:
 // "Hello Peniel Properties, I am interested in [Property Title], reference [Property Reference]. Please provide more information."
 $waMessage = "Hello Peniel Properties, I am interested in {$property['title']}, reference {$property['reference_no']}. Please provide more information.";

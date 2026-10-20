@@ -8,6 +8,10 @@ $pageTitle = $pageTitle ?? SITE_NAME . ' | ' . SITE_TAGLINE;
 $pageDescription = $pageDescription ?? SITE_DESCRIPTION;
 $canonicalUrl = $canonicalUrl ?? (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $activePage = $activePage ?? '';
+$ogImage = $ogImage ?? asset(LOGO_SHARE);
+$ogImageAlt = $ogImageAlt ?? SITE_NAME . ' - ' . SITE_TAGLINE;
+$ogImageWidth = $ogImageWidth ?? 1200;
+$ogImageHeight = $ogImageHeight ?? 630;
 $companyPhone = get_setting('contact_phone', COMPANY_PHONE);
 $companyWhatsapp = get_setting('whatsapp_number', COMPANY_WHATSAPP);
 $companyEmail = get_setting('contact_email', COMPANY_EMAIL);
@@ -21,16 +25,31 @@ $companyEmail = get_setting('contact_email', COMPANY_EMAIL);
   <meta name="description" content="<?= e($pageDescription) ?>">
   <link rel="canonical" href="<?= e($canonicalUrl) ?>">
   
-  <!-- Open Graph -->
+  <!-- Open Graph (link previews: WhatsApp, Facebook, Telegram, LinkedIn) -->
   <meta property="og:title" content="<?= e($pageTitle) ?>">
   <meta property="og:description" content="<?= e($pageDescription) ?>">
   <meta property="og:url" content="<?= e($canonicalUrl) ?>">
   <meta property="og:site_name" content="<?= e(SITE_NAME) ?>">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="<?= asset(LOGO_MAIN) ?>">
+  <meta property="og:type" content="<?= e($ogType ?? 'website') ?>">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="<?= e($ogImage) ?>">
+<?php if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'): ?>
+  <meta property="og:image:secure_url" content="<?= e(preg_replace('#^http://#i', 'https://', $ogImage)) ?>">
+<?php endif; ?>
+  <meta property="og:image:type" content="<?= e($ogImageType ?? 'image/png') ?>">
+  <meta property="og:image:width" content="<?= (int) $ogImageWidth ?>">
+  <meta property="og:image:height" content="<?= (int) $ogImageHeight ?>">
+  <meta property="og:image:alt" content="<?= e($ogImageAlt) ?>">
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<?= e($pageTitle) ?>">
+  <meta name="twitter:description" content="<?= e($pageDescription) ?>">
+  <meta name="twitter:image" content="<?= e($ogImage) ?>">
+  <meta name="twitter:image:alt" content="<?= e($ogImageAlt) ?>">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="<?= asset(LOGO_FAVICON) ?>">
+  <link rel="icon" type="image/png" href="<?= asset(LOGO_FAVICON) ?>">
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="<?= asset('assets/css/style.css') ?>">

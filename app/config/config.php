@@ -91,9 +91,10 @@ define('SITE_TAGLINE', 'Find a Place to Call Yours');
 define('SITE_DESCRIPTION', 'Discover properties for sale and rent across Zimbabwe. Exclusive residential and commercial real estate.');
 
 // Logo assets (easily swap production artwork here)
-define('LOGO_MAIN', 'assets/images/logo.svg');
-define('LOGO_WHITE', 'assets/images/logo-white.svg');
-define('LOGO_FAVICON', 'assets/images/favicon.svg');
+define('LOGO_MAIN', 'assets/images/logo.png');
+define('LOGO_WHITE', 'assets/images/logo.png');
+define('LOGO_FAVICON', 'assets/images/favicon.png');
+define('LOGO_SHARE', 'assets/images/share-card.png');
 
 // Primary Contact Info
 define('COMPANY_PHONE', '+263 77 243 2941');
