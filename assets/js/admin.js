@@ -117,17 +117,46 @@ document.addEventListener('DOMContentLoaded', function () {
     const sendBrowserNotification = function (title, message) {
       if (!('Notification' in window) || Notification.permission !== 'granted') return;
       const cfg = window.PenielAdmin || {};
-      try {
-        const options = { body: message, tag: 'peniel-new-inquiry' };
-        if (cfg.logo) options.icon = cfg.logo;
-        new Notification(title, options);
-      } catch (e) { /* notification blocked in this context */ }
+      const options = { body: message, tag: 'peniel-new-inquiry' };
+      if (cfg.logo) {
+        options.icon = cfg.logo;
+        options.badge = cfg.logo;
+      }
+
+      const legacyNotify = function () {
+        try {
+          new Notification(title, options);
+        } catch (e) { /* blocked in this context - toast already shown */ }
+      };
+
+      if ('serviceWorker' in navigator && navigator.serviceWorker.getRegistration) {
+        navigator.serviceWorker.getRegistration().then(function (reg) {
+          if (reg && reg.showNotification) {
+            reg.showNotification(title, options).catch(legacyNotify);
+          } else {
+            legacyNotify();
+          }
+        }).catch(legacyNotify);
+      } else {
+        legacyNotify();
+      }
     };
+
+    if ('serviceWorker' in navigator && (window.PenielAdmin || {}).sw) {
+      navigator.serviceWorker.register(window.PenielAdmin.sw).catch(function () {});
+    }
 
     if ('Notification' in window && Notification.permission === 'default') {
       const requestPermission = function () {
-        Notification.requestPermission().catch(function () {});
-        document.removeEventListener('click', requestPermission);
+        Notification.requestPermission().then(function (result) {
+          document.removeEventListener('click', requestPermission);
+          if (result === 'granted') {
+            sendBrowserNotification(
+              'Notifications Enabled',
+              'You will be alerted here whenever a new client inquiry arrives.'
+            );
+          }
+        }).catch(function () {});
       };
       document.addEventListener('click', requestPermission);
     }

@@ -54,7 +54,7 @@ require_once __DIR__ . '/app/includes/header.php';
       </div>
 
       <div style="border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-lg);">
-        <img src="<?= asset('assets/images/hero.jpg') ?>" alt="Peniel Properties Portfolio" class="about-hero-img" style="width: 100%; height: 460px; object-fit: cover;">
+        <img src="<?= asset('assets/images/hero (2).png') ?>" alt="Peniel Properties Portfolio" class="about-hero-img" style="width: 100%; height: 460px; object-fit: cover;">
       </div>
     </div>
   </div>

@@ -29,7 +29,8 @@ $flash = get_flash();
   <script>
     window.PenielAdmin = {
       logo: "<?= e(asset(LOGO_FAVICON)) ?>",
-      name: "<?= e(SITE_NAME) ?>"
+      name: "<?= e(SITE_NAME) ?>",
+      sw: "<?= e(url('sw.js')) ?>"
     };
   </script>
 </head>

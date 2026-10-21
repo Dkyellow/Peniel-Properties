@@ -14,7 +14,7 @@ The platform strictly adheres to the approved Peniel Properties visual identity:
 - **Secondary Blue:** `#123E68`
 - **Lime Green Accent:** `#A5D94A`
 - **Pure White & Soft Off-White:** `#FFFFFF` / `#F8F9FA`
-- **Typography:** Serif headings (*Playfair Display*) paired with modern geometric UI copy (*Plus Jakarta Sans*).
+- **Typography:** Geometric sans-serif throughout (*Montserrat*) for headings and UI copy.
 - **Approved Architectural Logo:** Integrated with configurable asset paths in `app/config/config.php`.
 
 ---

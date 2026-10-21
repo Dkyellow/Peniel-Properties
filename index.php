@@ -57,7 +57,20 @@ require_once __DIR__ . '/app/includes/header.php';
 <?php endif; ?>
 
 <!-- Hero Section -->
-<section class="hero-section" style="background-image: url('<?= asset('assets/images/hero.jpg') ?>');">
+<?php
+$heroSlides = [
+    asset('assets/images/hero.png'),
+    asset('assets/images/hero (1).png'),
+    asset('assets/images/hero (2).png'),
+    asset('assets/images/hero (3).png'),
+];
+?>
+<section class="hero-section">
+  <div class="hero-slides" aria-hidden="true">
+    <?php foreach ($heroSlides as $heroIndex => $heroSrc): ?>
+      <div class="hero-slide" style="background-image: url('<?= e($heroSrc) ?>'); animation-delay: <?= $heroIndex * 8 ?>s;"></div>
+    <?php endforeach; ?>
+  </div>
   <div class="hero-overlay"></div>
   <div class="container">
     <div class="hero-content">

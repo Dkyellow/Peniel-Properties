@@ -3,7 +3,7 @@
  * Standard Reusable Property Card
  * Expects $prop array
  */
-$propCover = !empty($prop['cover_image']) ? asset($prop['cover_image']) : asset('assets/images/hero.jpg');
+$propCover = !empty($prop['cover_image']) ? asset($prop['cover_image']) : asset('assets/images/hero.png');
 $propUrl = url('property.php?id=' . $prop['id'] . '&slug=' . urlencode($prop['slug']));
 $propPrice = format_price($prop['price'], $prop['currency'] ?? 'USD', $prop['rental_frequency'] ?? null);
 ?>
