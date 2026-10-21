@@ -26,6 +26,12 @@ $flash = get_flash();
   <title><?= e($pageTitle) ?> | Peniel Admin</title>
   <link rel="icon" type="image/png" href="<?= asset(LOGO_FAVICON) ?>">
   <link rel="stylesheet" href="<?= asset('assets/css/admin.css') ?>">
+  <script>
+    window.PenielAdmin = {
+      logo: "<?= e(asset(LOGO_FAVICON)) ?>",
+      name: "<?= e(SITE_NAME) ?>"
+    };
+  </script>
 </head>
 <body>
 

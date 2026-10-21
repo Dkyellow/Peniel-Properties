@@ -75,13 +75,18 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     const showAdminToast = function (title, message) {
+      const cfg = window.PenielAdmin || {};
+      const toastIcon = cfg.logo
+        ? '<span class="admin-toast-logo"><img src="' + cfg.logo + '" alt=""></span>'
+        : '<span class="admin-toast-icon">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>' +
+          '</span>';
+
       const toast = document.createElement('div');
       toast.className = 'admin-toast';
       toast.setAttribute('role', 'status');
       toast.innerHTML =
-        '<span class="admin-toast-icon">' +
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>' +
-        '</span>' +
+        toastIcon +
         '<span class="admin-toast-body">' +
         '<strong class="admin-toast-title"></strong>' +
         '<span class="admin-toast-text"></span>' +
@@ -111,8 +116,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const sendBrowserNotification = function (title, message) {
       if (!('Notification' in window) || Notification.permission !== 'granted') return;
+      const cfg = window.PenielAdmin || {};
       try {
-        new Notification(title, { body: message, tag: 'peniel-new-inquiry' });
+        const options = { body: message, tag: 'peniel-new-inquiry' };
+        if (cfg.logo) options.icon = cfg.logo;
+        new Notification(title, options);
       } catch (e) { /* notification blocked in this context */ }
     };
 

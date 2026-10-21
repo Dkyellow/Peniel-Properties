@@ -53,6 +53,12 @@ $companyEmail = get_setting('contact_email', COMPANY_EMAIL);
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="<?= asset('assets/css/style.css') ?>">
+  <script>
+    window.PenielSite = {
+      logo: "<?= e(asset(LOGO_FAVICON)) ?>",
+      name: "<?= e(SITE_NAME) ?>"
+    };
+  </script>
 </head>
 <body>
 

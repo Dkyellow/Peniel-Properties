@@ -1622,6 +1622,21 @@ html:has(body.drawer-open) {
   color: var(--color-deep-navy);
 }
 
+.site-toast-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--color-deep-navy);
+}
+
+.site-toast-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .site-toast-body {
   display: flex;
   flex-direction: column;
