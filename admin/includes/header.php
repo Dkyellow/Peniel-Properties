@@ -83,6 +83,14 @@ $flash = get_flash();
         <?php endif; ?>
       </a>
 
+      <a href="<?= url('admin/newsletter.php') ?>" class="admin-nav-link <?= $activeNav === 'newsletter' ? 'active' : '' ?>">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+          <path d="m3 7 9 6 9-6"></path>
+        </svg>
+        Newsletter
+      </a>
+
       <a href="<?= url('admin/settings.php') ?>" class="admin-nav-link <?= $activeNav === 'settings' ? 'active' : '' ?>">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="3"></circle>

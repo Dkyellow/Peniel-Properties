@@ -6,6 +6,11 @@ $companyPhone = get_setting('contact_phone', COMPANY_PHONE);
 $companyWhatsapp = get_setting('whatsapp_number', COMPANY_WHATSAPP);
 $companyEmail = get_setting('contact_email', COMPANY_EMAIL);
 $companyAddress = get_setting('office_address', COMPANY_ADDRESS);
+$newsletterFlash = get_flash();
+$newsletterRedirect = $_SERVER['REQUEST_URI'] ?? '/';
+if ($newsletterRedirect === '' || $newsletterRedirect[0] !== '/' || str_starts_with($newsletterRedirect, '//')) {
+    $newsletterRedirect = '/';
+}
 ?>
   <!-- Footer -->
   <footer class="site-footer">
@@ -68,6 +73,24 @@ $companyAddress = get_setting('office_address', COMPANY_ADDRESS);
             </svg>
             <span><?= e($companyEmail) ?></span>
           </div>
+        </div>
+
+        <div class="footer-newsletter" id="newsletter-signup">
+          <h3 class="footer-col-title">Property Updates</h3>
+          <p class="footer-newsletter-text">Get new listings and Zimbabwe property insights delivered to your inbox.</p>
+          <?php if ($newsletterFlash): ?>
+            <div class="footer-newsletter-message <?= $newsletterFlash['type'] === 'success' ? 'is-success' : 'is-error' ?>" role="status">
+              <?= e($newsletterFlash['message']) ?>
+            </div>
+          <?php endif; ?>
+          <form action="<?= url('newsletter.php') ?>" method="POST" class="footer-newsletter-form">
+            <?= csrf_field() ?>
+            <input type="hidden" name="redirect" value="<?= e($newsletterRedirect) ?>">
+            <label class="sr-only" for="newsletterEmail">Email address</label>
+            <input type="email" id="newsletterEmail" name="email" class="footer-newsletter-input" placeholder="Your email address" maxlength="190" required>
+            <button type="submit" name="submit_newsletter" value="1" class="btn btn-lime">Subscribe</button>
+          </form>
+          <small class="footer-newsletter-note">Property updates only. No spam.</small>
         </div>
       </div>
 

@@ -108,7 +108,7 @@ Open the **XAMPP Control Panel** and click **Start** on both **Apache** and **My
 4. Click **Choose File** and select:
    `c:\Users\leslie\Documents\Web Projecta\Peniel Properties\database\database.sql`
 5. Click **Import** (or **Go**) at the bottom.
-6. All tables (`properties`, `property_images`, `inquiries`, `admins`, `site_settings`) are created
+6. All tables (`properties`, `property_images`, `inquiries`, `newsletter_subscribers`, `newsletter_campaigns`, `admins`, `site_settings`) are created
    and populated with demonstration data. The SQL file intentionally contains **no**
    `CREATE DATABASE` statement so it imports into any pre-created database (cPanel-safe).
 
@@ -199,6 +199,8 @@ browser push notifications and secure sessions.
 - `https://yourdomain.com/` renders the homepage with listings
 - `https://yourdomain.com/admin/login.php` → sign in with the admin account
 - Submit a test inquiry → toast appears, the record shows in **Admin → Inquiries**, and the sidebar badge increments
+- Submit a test email in the footer → the record shows in **Admin → Newsletter Subscribers** and can be exported as CSV
+- Create a draft in **Admin → Newsletter Subscribers**, then send it to active subscribers using the server's configured PHP mail transport
 - Upload a test property image → file saves under `uploads/properties/`
 - `https://yourdomain.com/sitemap.xml` and `/robots.txt` respond correctly
 - `/app/`, `/database/`, `/.env` all return **403 Forbidden** (not file contents)

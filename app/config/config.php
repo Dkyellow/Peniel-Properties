@@ -101,6 +101,7 @@ define('COMPANY_PHONE', '+263 77 243 2941');
 define('COMPANY_WHATSAPP', '+263772432941');
 define('COMPANY_EMAIL', 'info@penielproperties.co.zw');
 define('COMPANY_ADDRESS', 'Suite 4, Peniel House, Borrowdale Road, Harare, Zimbabwe');
+define('NEWSLETTER_UNSUBSCRIBE_KEY', env_value('NEWSLETTER_UNSUBSCRIBE_KEY', DB_PASS . '|' . SITE_NAME));
 
 // Security & Uploads
 define('MAX_FILE_SIZE', 6 * 1024 * 1024); // 6MB

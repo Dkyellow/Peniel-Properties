@@ -31,6 +31,37 @@ CREATE TABLE `admins` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------------------------------------------------------
+-- Table: newsletter_subscribers
+-- ----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `newsletter_subscribers` (
+  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `email` VARCHAR(190) NOT NULL UNIQUE,
+  `status` ENUM('active', 'unsubscribed') NOT NULL DEFAULT 'active',
+  `subscribed_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `unsubscribed_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX `idx_newsletter_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------------------------------------------------------
+-- Table: newsletter_campaigns
+-- ----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `newsletter_campaigns` (
+  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `subject` VARCHAR(255) NOT NULL,
+  `preview_text` VARCHAR(255) NULL,
+  `body_html` MEDIUMTEXT NOT NULL,
+  `status` ENUM('draft', 'sent', 'failed') NOT NULL DEFAULT 'draft',
+  `recipient_count` INT UNSIGNED NOT NULL DEFAULT 0,
+  `sent_count` INT UNSIGNED NOT NULL DEFAULT 0,
+  `failed_count` INT UNSIGNED NOT NULL DEFAULT 0,
+  `sent_at` DATETIME NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX `idx_campaign_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------------------------------------------------------
 -- Table: properties
 -- ----------------------------------------------------------------------------
 DROP TABLE IF EXISTS `properties`;
